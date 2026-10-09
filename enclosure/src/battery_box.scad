@@ -1,5 +1,5 @@
 //    battery_box.scad
-//    OpenSCAD model for a CCS Data Logger lithium-poly battery 
+//    OpenSCAD model for a box for a PKCELL 18650 lithium-ion battery 
 //
 //    Copyright (C) 2026 Clear Creek Scientific
 //
@@ -16,43 +16,21 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use <MCAD/boxes.scad>
-use <MCAD/regular_shapes.scad>
+include <common.scad>
 
 $fa=1;
 $fs=0.4;
 
-INNER_X_DIM = 68.7;
-INNER_Y_DIM = 18.8;
-WALL_WIDTH = 1.5;
-WALL_HEIGHT = INNER_Y_DIM + WALL_WIDTH + 3.0;
-OUTER_X_DIM = INNER_X_DIM + WALL_WIDTH;
-OUTER_Y_DIM = INNER_Y_DIM + WALL_WIDTH;
-TAB_WIDTH = 8;
-TAB_HOLE_RADIUS = 1;
-TAB_CORNER_RADIUS=1;
-
-module tab() {
-    color(c=[1.0,0,0]) {
-        difference() {
-            roundedBox(size=[TAB_WIDTH,TAB_WIDTH,WALL_HEIGHT],radius=TAB_CORNER_RADIUS,sidesonly=true);
-            // cube([TAB_WIDTH,TAB_WIDTH,WALL_WIDTH],center=true);
-            translate([0,0,-WALL_HEIGHT]) {
-                cylinder(2*WALL_HEIGHT,TAB_HOLE_RADIUS,TAB_HOLE_RADIUS);
-            }
-        }
-    }
-}
 
 module basic_battery_box() {
     difference() {
     
         // outer box
-        cube([OUTER_X_DIM,OUTER_Y_DIM,WALL_HEIGHT],center=true); 
+        cube([BATTERY_OUTER_X_DIM,BATTERY_OUTER_Y_DIM,BATTERY_WALL_HEIGHT],center=true); 
 
         // cut out inner box
         translate([0,0,WALL_WIDTH]) {
-            cube([INNER_X_DIM,INNER_Y_DIM,WALL_HEIGHT],center=true); 
+            cube([BATTERY_INNER_X_DIM,BATTERY_INNER_Y_DIM,BATTERY_WALL_HEIGHT],center=true); 
         }
     } // difference
 }
@@ -62,22 +40,22 @@ module basic_battery_box_with_cutouts() {
         basic_battery_box();
 
         // cut out middle of bottom
-        cube([INNER_X_DIM-6,INNER_Y_DIM/4,2*WALL_HEIGHT],center=true); 
+        cube([BATTERY_INNER_X_DIM-6,BATTERY_INNER_Y_DIM/4,2*BATTERY_WALL_HEIGHT],center=true); 
         
         // make end cutouts
-        translate([0.5*INNER_X_DIM,0,WALL_WIDTH]) {
-            cube([WALL_WIDTH+0.5,INNER_Y_DIM-10.0,WALL_HEIGHT-12.0],center=true); 
+        translate([0.5*BATTERY_INNER_X_DIM,0,WALL_WIDTH]) {
+            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
         }
-        translate([-0.5*INNER_X_DIM,0,WALL_WIDTH]) {
-            cube([WALL_WIDTH+0.5,INNER_Y_DIM-10.0,WALL_HEIGHT-12.0],center=true); 
+        translate([-0.5*BATTERY_INNER_X_DIM,0,WALL_WIDTH]) {
+            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
         }
         
         // make side cutouts
-        translate([0,0.5*INNER_Y_DIM,WALL_WIDTH]) {
-            cube([INNER_X_DIM-10,INNER_Y_DIM-10.0,WALL_HEIGHT-12.0],center=true); 
+        translate([0,0.5*BATTERY_INNER_Y_DIM,WALL_WIDTH]) {
+            cube([BATTERY_INNER_X_DIM-10,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
         }
-        translate([0,-0.5*INNER_Y_DIM,WALL_WIDTH]) {
-            cube([INNER_X_DIM-10,INNER_Y_DIM-10.0,WALL_HEIGHT-12.0],center=true); 
+        translate([0,-0.5*BATTERY_INNER_Y_DIM,WALL_WIDTH]) {
+            cube([BATTERY_INNER_X_DIM-10,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
         }
 
     } // difference
@@ -88,17 +66,17 @@ module battery_box() {
         basic_battery_box_with_cutouts();
         
         // tabs
-        translate([0.5*(OUTER_X_DIM - TAB_WIDTH),0.5*(INNER_Y_DIM + TAB_WIDTH),0]) {
-            tab();
+        translate([0.5*(BATTERY_OUTER_X_DIM - TAB_WIDTH),0.5*(BATTERY_INNER_Y_DIM + TAB_WIDTH),0]) {
+            tab(BATTERY_WALL_HEIGHT);
         }
-        translate([-0.5*(OUTER_X_DIM - TAB_WIDTH),0.5*(INNER_Y_DIM + TAB_WIDTH),0]) {
-            tab();
+        translate([-0.5*(BATTERY_OUTER_X_DIM - TAB_WIDTH),0.5*(BATTERY_INNER_Y_DIM + TAB_WIDTH),0]) {
+            tab(BATTERY_WALL_HEIGHT);
         }
-        translate([0.5*(OUTER_X_DIM - TAB_WIDTH),-0.5*(INNER_Y_DIM + TAB_WIDTH),0]) {
-            tab();
+        translate([0.5*(BATTERY_OUTER_X_DIM - TAB_WIDTH),-0.5*(BATTERY_INNER_Y_DIM + TAB_WIDTH),0]) {
+            tab(BATTERY_WALL_HEIGHT);
         }
-        translate([-0.5*(OUTER_X_DIM - TAB_WIDTH),-0.5*(INNER_Y_DIM + TAB_WIDTH),0]) {
-            tab();
+        translate([-0.5*(BATTERY_OUTER_X_DIM - TAB_WIDTH),-0.5*(BATTERY_INNER_Y_DIM + TAB_WIDTH),0]) {
+            tab(BATTERY_WALL_HEIGHT);
         }
         
     }

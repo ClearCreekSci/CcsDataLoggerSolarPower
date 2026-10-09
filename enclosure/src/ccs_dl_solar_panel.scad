@@ -16,37 +16,23 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use <MCAD/boxes.scad>
-use <MCAD/regular_shapes.scad>
+include <common.scad>
 
 $fa=1;
 $fs=0.4;
 
-WALL_WIDTH = 1.5;
-WALL_HEIGHT = 8;
-INNER_X_DIM = 92.2;
-INNER_Y_DIM = 73.2;
-OUTER_X_DIM = INNER_X_DIM + WALL_WIDTH;
-OUTER_Y_DIM = INNER_Y_DIM + WALL_WIDTH;
-
-DRAIN_HOLE_HEIGHT = 3.0 * WALL_WIDTH;
-DRAIN_HOLE_RADIUS = 1.0;
-
-module drain_hole() {
-    cylinder(h=DRAIN_HOLE_HEIGHT,r=DRAIN_HOLE_RADIUS,center=true);
-}
 
 module basic_solar_box() {
     difference() {
     
         // outer box
-        translate([0,0,0.5*WALL_HEIGHT]) {
-             cube([OUTER_X_DIM,OUTER_Y_DIM,WALL_HEIGHT],center=true); 
+        translate([0,0,0.5*PANEL_WALL_HEIGHT]) {
+             cube([PANEL_OUTER_X_DIM,PANEL_OUTER_Y_DIM,PANEL_WALL_HEIGHT],center=true); 
         }
 
         // cut out inner box
-        translate([0,0,0.5*WALL_HEIGHT+0.5*WALL_WIDTH]) {
-            cube([INNER_X_DIM,INNER_Y_DIM,WALL_HEIGHT],center=true); 
+        translate([0,0,0.5*PANEL_WALL_HEIGHT+0.5*WALL_WIDTH]) {
+            cube([PANEL_INNER_X_DIM,PANEL_INNER_Y_DIM,PANEL_WALL_HEIGHT],center=true); 
         }
     } // difference
 }
@@ -56,8 +42,8 @@ module basic_solar_box_with_cutout() {
         basic_solar_box();
 
         // cut out middle of bottom
-        translate([0,0,0.5*WALL_HEIGHT-(2*WALL_WIDTH)]) {
-            cube([INNER_X_DIM-6,INNER_Y_DIM/3,2*WALL_WIDTH],center=true); 
+        translate([0,0,0.5*PANEL_WALL_HEIGHT-(2*WALL_WIDTH)]) {
+            cube([PANEL_INNER_X_DIM-6,PANEL_CENTER_BOX_WIDTH,2*WALL_WIDTH],center=true); 
       }
     } // difference
 }
@@ -67,18 +53,61 @@ module solar_box() {
         basic_solar_box_with_cutout();
 
         // cut out drain holes
-        translate([0.5*INNER_X_DIM-DRAIN_HOLE_RADIUS,0.5*INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
+        translate([0.5*PANEL_INNER_X_DIM-DRAIN_HOLE_RADIUS,0.5*PANEL_INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
             drain_hole();
         }
-        translate([-0.5*INNER_X_DIM+DRAIN_HOLE_RADIUS,0.5*INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
+        translate([-0.5*PANEL_INNER_X_DIM+DRAIN_HOLE_RADIUS,0.5*PANEL_INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
             drain_hole();
         }
-        translate([0.5*INNER_X_DIM-DRAIN_HOLE_RADIUS,-0.5*INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
+        translate([0.5*PANEL_INNER_X_DIM-DRAIN_HOLE_RADIUS,-0.5*PANEL_INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
             drain_hole();
         }
-        translate([-0.5*INNER_X_DIM+DRAIN_HOLE_RADIUS,-0.5*INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
+        translate([-0.5*PANEL_INNER_X_DIM+DRAIN_HOLE_RADIUS,-0.5*PANEL_INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
             drain_hole();
         }
+
+        // cut out screw holes for battery box
+        translate([0.5*(PANEL_INNER_X_DIM-TAB_WIDTH)-PANEL_CENTER_X_LEN+BATTERY_X_OFFSET,0.5*BATTERY_INNER_X_DIM,0]) {
+            screw_hole();
+        }
+        translate([0.5*(PANEL_INNER_X_DIM+TAB_WIDTH)-PANEL_CENTER_X_LEN+0.5*BATTERY_INNER_Y_DIM+BATTERY_X_OFFSET,0.5*BATTERY_INNER_X_DIM,0]) {
+            screw_hole();
+        }
+        translate([0.5*(PANEL_INNER_X_DIM-TAB_WIDTH)-PANEL_CENTER_X_LEN+BATTERY_X_OFFSET,-0.5*BATTERY_INNER_X_DIM,0]) {
+            screw_hole();
+        }
+        translate([0.5*(PANEL_INNER_X_DIM+TAB_WIDTH)-PANEL_CENTER_X_LEN+0.5*BATTERY_INNER_Y_DIM+BATTERY_X_OFFSET,-0.5*BATTERY_INNER_X_DIM,0]) {
+            screw_hole();
+        }
+
+        // cut out screw holes for charger box
+        translate([-CHARGER_X_OFFSET,0.5*PANEL_INNER_Y_DIM-0.5*(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        translate([-CHARGER_X_OFFSET,0.5*PANEL_INNER_Y_DIM-(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        translate([-(CHARGER_X_OFFSET+CHARGER_INNER_X_DIM),0.5*PANEL_INNER_Y_DIM-0.5*(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        translate([-(CHARGER_X_OFFSET+CHARGER_INNER_X_DIM),0.5*PANEL_INNER_Y_DIM-(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        
+        // cut out screw holes for mount box
+        translate([0.5*MOUNT_INNER_X_DIM,0.5*MOUNT_INNER_Y_DIM+TAB_WIDTH,0]) {
+            screw_hole();
+        }
+        translate([0.5*MOUNT_INNER_X_DIM,-0.5*(MOUNT_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        translate([-0.5*MOUNT_INNER_X_DIM,0.5*MOUNT_INNER_Y_DIM+TAB_WIDTH,0]) {
+            screw_hole();
+        }
+        translate([-0.5*MOUNT_INNER_X_DIM,-0.5*(MOUNT_INNER_Y_DIM+TAB_WIDTH),0]) {
+            screw_hole();
+        }
+        
     } // difference
 }
 
