@@ -31,7 +31,7 @@ module basic_solar_box() {
         }
 
         // cut out inner box
-        translate([0,0,0.5*PANEL_WALL_HEIGHT+0.5*WALL_WIDTH]) {
+        translate([0,0,0.5*PANEL_WALL_HEIGHT+WALL_WIDTH]) {
             cube([PANEL_INNER_X_DIM,PANEL_INNER_Y_DIM,PANEL_WALL_HEIGHT],center=true); 
         }
     } // difference
@@ -48,65 +48,65 @@ module basic_solar_box_with_cutout() {
     } // difference
 }
 
+
 module solar_box() {
     difference() {
         basic_solar_box_with_cutout();
 
         // cut out drain holes
-        translate([0.5*PANEL_INNER_X_DIM-DRAIN_HOLE_RADIUS,0.5*PANEL_INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
-            drain_hole();
+        translate([0.5*PANEL_INNER_X_DIM,0.5*PANEL_INNER_Y_DIM,0.25*DRAIN_HOLE_HEIGHT]) {
+            rotate([0,0,45]) {
+                drain_hole();
+            }
         }
-        translate([-0.5*PANEL_INNER_X_DIM+DRAIN_HOLE_RADIUS,0.5*PANEL_INNER_Y_DIM-DRAIN_HOLE_RADIUS,0]) {
-            drain_hole();
+        translate([0.5*PANEL_INNER_X_DIM,-0.5*PANEL_INNER_Y_DIM,0.25*DRAIN_HOLE_HEIGHT]) {
+            rotate([0,0,45]) {
+                drain_hole();
+            }
         }
-        translate([0.5*PANEL_INNER_X_DIM-DRAIN_HOLE_RADIUS,-0.5*PANEL_INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
-            drain_hole();
+        translate([-0.5*PANEL_INNER_X_DIM,0.5*PANEL_INNER_Y_DIM,0.25*DRAIN_HOLE_HEIGHT]) {
+            rotate([0,0,45]) {
+                drain_hole();
+            }
         }
-        translate([-0.5*PANEL_INNER_X_DIM+DRAIN_HOLE_RADIUS,-0.5*PANEL_INNER_Y_DIM+DRAIN_HOLE_RADIUS,0]) {
-            drain_hole();
+        translate([-0.5*PANEL_INNER_X_DIM,-0.5*PANEL_INNER_Y_DIM,0.25*DRAIN_HOLE_HEIGHT]) {
+            rotate([0,0,45]) {
+                drain_hole();
+            }
         }
+
 
         // cut out screw holes for battery box
-        translate([0.5*(PANEL_INNER_X_DIM-TAB_WIDTH)-PANEL_CENTER_X_LEN+BATTERY_X_OFFSET,0.5*BATTERY_INNER_X_DIM,0]) {
+        translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET,0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
-        translate([0.5*(PANEL_INNER_X_DIM+TAB_WIDTH)-PANEL_CENTER_X_LEN+0.5*BATTERY_INNER_Y_DIM+BATTERY_X_OFFSET,0.5*BATTERY_INNER_X_DIM,0]) {
+        translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET+BATTERY_INNER_Y_DIM+TAB_WIDTH,0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
+                screw_hole();
+        }
+
+        translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET,-0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
-        translate([0.5*(PANEL_INNER_X_DIM-TAB_WIDTH)-PANEL_CENTER_X_LEN+BATTERY_X_OFFSET,-0.5*BATTERY_INNER_X_DIM,0]) {
-            screw_hole();
-        }
-        translate([0.5*(PANEL_INNER_X_DIM+TAB_WIDTH)-PANEL_CENTER_X_LEN+0.5*BATTERY_INNER_Y_DIM+BATTERY_X_OFFSET,-0.5*BATTERY_INNER_X_DIM,0]) {
+        translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET+BATTERY_INNER_Y_DIM+TAB_WIDTH,-0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
 
-        // cut out screw holes for charger box
-        translate([-CHARGER_X_OFFSET,0.5*PANEL_INNER_Y_DIM-0.5*(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+        // cut out screw holes for mount box (with charger)
+        translate([0.5*(MOUNT_OUTER_Y_DIM-TAB_WIDTH),0.5*(MOUNT_OUTER_X_DIM+TAB_WIDTH)-WALL_WIDTH,0.1]) {
             screw_hole();
         }
-        translate([-CHARGER_X_OFFSET,0.5*PANEL_INNER_Y_DIM-(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+        translate([0.5*(MOUNT_OUTER_Y_DIM-TAB_WIDTH),-0.5*(MOUNT_OUTER_X_DIM+TAB_WIDTH)+WALL_WIDTH,0.1]) {
             screw_hole();
         }
-        translate([-(CHARGER_X_OFFSET+CHARGER_INNER_X_DIM),0.5*PANEL_INNER_Y_DIM-0.5*(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+        translate([-0.5*(MOUNT_OUTER_Y_DIM-TAB_WIDTH),0.5*(MOUNT_OUTER_X_DIM+TAB_WIDTH)-WALL_WIDTH,0.1]) {
             screw_hole();
         }
-        translate([-(CHARGER_X_OFFSET+CHARGER_INNER_X_DIM),0.5*PANEL_INNER_Y_DIM-(CHARGER_INNER_Y_DIM+TAB_WIDTH),0]) {
+        translate([-0.5*(MOUNT_OUTER_Y_DIM-TAB_WIDTH),-0.5*(MOUNT_OUTER_X_DIM+TAB_WIDTH)+WALL_WIDTH,0.1]) {
             screw_hole();
         }
-        
-        // cut out screw holes for mount box
-        translate([0.5*MOUNT_INNER_X_DIM,0.5*MOUNT_INNER_Y_DIM+TAB_WIDTH,0]) {
-            screw_hole();
-        }
-        translate([0.5*MOUNT_INNER_X_DIM,-0.5*(MOUNT_INNER_Y_DIM+TAB_WIDTH),0]) {
-            screw_hole();
-        }
-        translate([-0.5*MOUNT_INNER_X_DIM,0.5*MOUNT_INNER_Y_DIM+TAB_WIDTH,0]) {
-            screw_hole();
-        }
-        translate([-0.5*MOUNT_INNER_X_DIM,-0.5*(MOUNT_INNER_Y_DIM+TAB_WIDTH),0]) {
-            screw_hole();
-        }
+
+
+
         
     } // difference
 }

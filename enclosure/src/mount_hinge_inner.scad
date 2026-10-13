@@ -1,4 +1,4 @@
-// mount_hinge.scad
+// mount_hinge_inner.scad
 //    OpenSCAD model for the solar panel mount hinge inner tabs
 //
 //    Copyright (C) 2026 Clear Creek Scientific
@@ -21,24 +21,24 @@ include <common.scad>
 $fa=1;
 $fs=0.4;
 
-HOLE_OFFSET = 2;
+INNER_HOLE_OFFSET = 3;
 
-module mount_hinge_box() {
+module mount_inner_hinge_box() {
     union() {
         mount_hinge_base();
 
         // hinge 1
         translate([0,0.5*(HINGE_GAP+HINGE_TAB_DEPTH),0.5*HINGE_TAB_HEIGHT]) {
-            hinge_tab(HOLE_OFFSET);
+            hinge_tab(INNER_HOLE_OFFSET);
         }
         // hinge 2
         translate([0,-0.5*(HINGE_GAP+HINGE_TAB_DEPTH),0.5*HINGE_TAB_HEIGHT]) {
-            hinge_tab(HOLE_OFFSET);
+            hinge_tab(INNER_HOLE_OFFSET);
         }
        
     } // difference
 }
 
-mount_hinge_box();
+mount_inner_hinge_box();
 
 

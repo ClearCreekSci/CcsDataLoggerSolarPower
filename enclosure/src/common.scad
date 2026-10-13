@@ -21,25 +21,24 @@ use <MCAD/boxes.scad>
 use <MCAD/regular_shapes.scad>
 
 module tab(height) {
-    color(c=[1.0,0,0]) {
-        difference() {
-            roundedBox(size=[TAB_WIDTH,TAB_WIDTH,height],radius=TAB_CORNER_RADIUS,sidesonly=true);
-            translate([0,0,-height]) {
-                cylinder(2*height,TAB_HOLE_RADIUS,TAB_HOLE_RADIUS);
-            }
+    difference() {
+        roundedBox(size=[TAB_WIDTH,TAB_WIDTH,height],radius=TAB_CORNER_RADIUS,sidesonly=true);
+        translate([0,0,-height]) {
+            cylinder(2*height,TAB_HOLE_RADIUS,TAB_HOLE_RADIUS);
         }
     }
 }
 
 module drain_hole() {
-    cylinder(h=DRAIN_HOLE_HEIGHT,r=DRAIN_HOLE_RADIUS,center=true);
+    //cylinder(h=DRAIN_HOLE_HEIGHT,r=DRAIN_HOLE_RADIUS,center=true);
+    cube([DRAIN_HOLE_HEIGHT,DRAIN_HOLE_HEIGHT,DRAIN_HOLE_HEIGHT],center=true);
 }
 
 module screw_hole() {
     union() {
-        cylinder(h=DRAIN_HOLE_HEIGHT,r=DRAIN_HOLE_RADIUS,center=true);
+        cylinder(h=SCREW_HOLE_HEIGHT,r=SCREW_HOLE_RADIUS,center=true);
         translate([0,0,0.5*WALL_WIDTH]) {
-            cylinder(h=SCREW_HEAD_HEIGHT,r=SCREW_HOLE_RADIUS,center=true);
+            cylinder(h=SCREW_HEAD_HEIGHT,r=SCREW_HEAD_RADIUS,center=true);
         }
     }
 }
@@ -55,23 +54,26 @@ module hinge_tab(hole_offset) {
     }
 }
 
+BASE_X_DIM = MOUNT_OUTER_X_DIM;
+BASE_Y_DIM = MOUNT_OUTER_Y_DIM+2*(TAB_WIDTH-WALL_WIDTH);
+
 module mount_hinge_base() {
     union () {
         // main base 
         difference() {
-            roundedBox(size=[MOUNT_OUTER_X_DIM+2*TAB_WIDTH,MOUNT_OUTER_Y_DIM+2*TAB_WIDTH,WALL_WIDTH],radius=TAB_CORNER_RADIUS,sidesonly=true);
+            roundedBox(size=[BASE_X_DIM,BASE_Y_DIM,WALL_WIDTH],radius=TAB_CORNER_RADIUS,sidesonly=true);
 
             // cut out screw holes
-            translate([0.5* (MOUNT_OUTER_X_DIM+TAB_WIDTH),0.5*(MOUNT_OUTER_Y_DIM+TAB_WIDTH),0]) {
+            translate([0.5*(BASE_X_DIM-TAB_WIDTH),0.5*(BASE_Y_DIM-TAB_WIDTH),0]) {
                 screw_hole();
             }
-            translate([-0.5* (MOUNT_OUTER_X_DIM+TAB_WIDTH),0.5*(MOUNT_OUTER_Y_DIM+TAB_WIDTH),0]) {
+            translate([-0.5*(BASE_X_DIM-TAB_WIDTH),0.5*(BASE_Y_DIM-TAB_WIDTH),0]) {
                 screw_hole();
             }
-            translate([0.5* (MOUNT_OUTER_X_DIM+TAB_WIDTH),-0.5*(MOUNT_OUTER_Y_DIM+TAB_WIDTH),0]) {
+            translate([0.5*(BASE_X_DIM-TAB_WIDTH),-0.5*(BASE_Y_DIM-TAB_WIDTH),0]) {
                 screw_hole();
             }
-            translate([-0.5* (MOUNT_OUTER_X_DIM+TAB_WIDTH),-0.5*(MOUNT_OUTER_Y_DIM+TAB_WIDTH),0]) {
+            translate([-0.5* (BASE_X_DIM-TAB_WIDTH),-0.5*(BASE_Y_DIM-TAB_WIDTH),0]) {
                 screw_hole();
             }
         } // difference

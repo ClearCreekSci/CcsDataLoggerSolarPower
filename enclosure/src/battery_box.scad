@@ -43,11 +43,11 @@ module basic_battery_box_with_cutouts() {
         cube([BATTERY_INNER_X_DIM-6,BATTERY_INNER_Y_DIM/4,2*BATTERY_WALL_HEIGHT],center=true); 
         
         // make end cutouts
-        translate([0.5*BATTERY_INNER_X_DIM,0,WALL_WIDTH]) {
-            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
+        translate([0.5*(BATTERY_OUTER_X_DIM-WALL_WIDTH),0,0]) {
+            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-8.0,BATTERY_WALL_HEIGHT-8.0],center=true); 
         }
-        translate([-0.5*BATTERY_INNER_X_DIM,0,WALL_WIDTH]) {
-            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-10.0,BATTERY_WALL_HEIGHT-12.0],center=true); 
+        translate([-0.5*(BATTERY_OUTER_X_DIM-WALL_WIDTH),0,0]) {
+            cube([WALL_WIDTH+0.5,BATTERY_INNER_Y_DIM-8.0,BATTERY_WALL_HEIGHT-8.0],center=true); 
         }
         
         // make side cutouts
