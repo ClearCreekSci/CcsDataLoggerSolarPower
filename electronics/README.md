@@ -2,6 +2,6 @@ This document contains information for obtaining and connecting the electronic c
 
 [Bill of Materials](https://github.com/ClearCreekSci/CcsDataLoggerSolarPower/wiki/DataLoggerSolarPanelBillOfMaterials)
 
-[Wiring Diagram]()
+[Wiring Diagram](https://github.com/ClearCreekSci/CcsDataLoggerSolarPower/wiki/DataLoggerSolarPanelWiringDiagram)
 
 
