@@ -43,6 +43,15 @@ module screw_hole() {
     }
 }
 
+module reverse_screw_hole() {
+    union() {
+        cylinder(h=SCREW_HEAD_HEIGHT,r=SCREW_HEAD_RADIUS,center=true);
+        translate([0,0,0.5*WALL_WIDTH]) {
+            cylinder(h=SCREW_HOLE_HEIGHT,r=SCREW_HOLE_RADIUS,center=true);
+        }
+    }
+}
+
 module hinge_tab(hole_offset) {
     rotate([90,0,0]) {
         difference() {

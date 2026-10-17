@@ -77,20 +77,20 @@ module solar_box() {
 
 
         // cut out screw holes for battery box
+color([0,0,1.0]) {
         translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET,0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
         translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET+BATTERY_INNER_Y_DIM+TAB_WIDTH,0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
                 screw_hole();
         }
-
         translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET,-0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
         translate([0.5*(PANEL_CENTER_BOX_WIDTH)+BATTERY_X_OFFSET+BATTERY_INNER_Y_DIM+TAB_WIDTH,-0.5*(BATTERY_OUTER_X_DIM-TAB_WIDTH),0.1]) {
             screw_hole();
         }
-
+}
         // cut out screw holes for mount box (with charger)
         translate([0.5*(MOUNT_OUTER_Y_DIM-TAB_WIDTH),0.5*(MOUNT_OUTER_X_DIM+TAB_WIDTH)-WALL_WIDTH,0.1]) {
             screw_hole();
@@ -106,11 +106,40 @@ module solar_box() {
         }
 
 
+        // cut out screw holes for wiretie box
+color([1.0,0,0]) {
+        translate([-0.5*(PANEL_CENTER_BOX_WIDTH)-WIRETIE_X_OFFSET,0.5*(WIRETIE_OUTER_X_DIM-TAB_WIDTH),0.1]) {
+            screw_hole();
+        }
+        translate([-0.5*(PANEL_CENTER_BOX_WIDTH)-WIRETIE_X_OFFSET-WIRETIE_OUTER_Y_DIM-0.5*TAB_WIDTH,0.5*(WIRETIE_OUTER_X_DIM-TAB_WIDTH),0.1]) {
+                screw_hole();
+        }
+        translate([-0.5*(PANEL_CENTER_BOX_WIDTH)-WIRETIE_X_OFFSET,-0.5*(WIRETIE_OUTER_X_DIM-TAB_WIDTH),0.1]) {
+            screw_hole();
+        }
+        translate([-0.5*(PANEL_CENTER_BOX_WIDTH)-WIRETIE_X_OFFSET-WIRETIE_OUTER_Y_DIM-0.5*TAB_WIDTH,-0.5*(WIRETIE_OUTER_X_DIM-TAB_WIDTH),0.1]) {
+                screw_hole();
+        }
+}
+
+        // cut out screw holes for skirt box
+        translate([0.5*(SKIRT_INNER_X_DIM-SKIRT_TAB_DIM),0.5*(SKIRT_INNER_Y_DIM-SKIRT_TAB_DIM),0.1]) {
+            screw_hole();
+        }
+        translate([-0.5*(SKIRT_INNER_X_DIM-SKIRT_TAB_DIM),0.5*(SKIRT_INNER_Y_DIM-SKIRT_TAB_DIM),0.1]) {
+            screw_hole();
+        }
+        translate([0.5*(SKIRT_INNER_X_DIM-SKIRT_TAB_DIM),-0.5*(SKIRT_INNER_Y_DIM-SKIRT_TAB_DIM),0.1]) {
+            screw_hole();
+        }
+        translate([-0.5*(SKIRT_INNER_X_DIM-SKIRT_TAB_DIM),-0.5*(SKIRT_INNER_Y_DIM-SKIRT_TAB_DIM),0.1]) {
+            screw_hole();
+        }
+
 
         
     } // difference
 }
 
 solar_box();
-
 

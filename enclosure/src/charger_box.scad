@@ -29,9 +29,19 @@ PIN_POINT_RADIUS = 0.9;
 
 CHARGER_CUTOUT_WIDTH = 10.5;
 CHARGER_CUTOUT_HEIGHT = 6.0;
-CHARGER_PIN_CUTOUT_X = 3;
-CHARGER_PIN_CUTOUT_Y = 7;
+CHARGER_PIN_CUTOUT_X = 7;
+CHARGER_PIN_CUTOUT_Y = 8;
 PANEL_CABLE_WIDTH = 2;
+
+BOTTOM_ZIPTIE_X_DIM = 4;
+BOTTOM_ZIPTIE_Y_DIM = 8;
+BOTTOM_ZIPTIE_X_OFFSET = 8;
+BOTTOM_ZIPTIE_Y_OFFSET = 11;
+
+SIDE_ZIPTIE_Z_DIM = 8;
+SIDE_ZIPTIE_Y_DIM = 4;
+SIDE_ZIPTIE_Z_OFFSET = 11;
+SIDE_ZIPTIE_Y_OFFSET = 13;
 
 module basic_charger_box() {
     difference() {
@@ -54,10 +64,10 @@ module basic_charger_box_with_cutouts() {
         }
 
         // make pin cutouts
-        translate([0.5*(LONG_PIN_MEASURE)-PIN_RADIUS,0,WALL_WIDTH-0.5]) {
+        translate([0.5*(LONG_PIN_MEASURE)-3*PIN_RADIUS,0,WALL_WIDTH-0.5]) {
             cube([CHARGER_PIN_CUTOUT_X,CHARGER_PIN_CUTOUT_Y,WALL_WIDTH+1],center=true); 
         }
-        translate([-0.5*(LONG_PIN_MEASURE)+PIN_RADIUS,0,WALL_WIDTH-0.5]) {
+        translate([-0.5*(LONG_PIN_MEASURE)+3*PIN_RADIUS,0,WALL_WIDTH-0.5]) {
             cube([CHARGER_PIN_CUTOUT_X,CHARGER_PIN_CUTOUT_Y,WALL_WIDTH+1],center=true); 
         }
        
@@ -84,6 +94,35 @@ module basic_charger_box_with_cutouts() {
         translate([-0.5*(CHARGER_INNER_X_DIM+WALL_WIDTH),0,CHARGER_WALL_HEIGHT-(PANEL_CABLE_WIDTH-0.2)]) {
             cube([WALL_WIDTH+1,CHARGER_CUTOUT_WIDTH,CHARGER_CUTOUT_HEIGHT],center=true); 
         }
+
+        // make bottom zip tie cutouts
+        translate([BOTTOM_ZIPTIE_X_OFFSET,BOTTOM_ZIPTIE_Y_OFFSET,0]) {
+            cube([BOTTOM_ZIPTIE_X_DIM,BOTTOM_ZIPTIE_Y_DIM,2*(WALL_WIDTH+0.1)],center=true); 
+        }
+        translate([-BOTTOM_ZIPTIE_X_OFFSET,BOTTOM_ZIPTIE_Y_OFFSET,0]) {
+            cube([BOTTOM_ZIPTIE_X_DIM,BOTTOM_ZIPTIE_Y_DIM,2*(WALL_WIDTH+0.1)],center=true); 
+        }
+        translate([BOTTOM_ZIPTIE_X_OFFSET,-BOTTOM_ZIPTIE_Y_OFFSET,0]) {
+            cube([BOTTOM_ZIPTIE_X_DIM,BOTTOM_ZIPTIE_Y_DIM,2*(WALL_WIDTH+0.1)],center=true); 
+        }
+        translate([-BOTTOM_ZIPTIE_X_OFFSET,-BOTTOM_ZIPTIE_Y_OFFSET,0]) {
+            cube([BOTTOM_ZIPTIE_X_DIM,BOTTOM_ZIPTIE_Y_DIM,2*(WALL_WIDTH+0.1)],center=true); 
+        }
+
+        // make side zip tie cutouts
+        translate([0.5*(CHARGER_INNER_X_DIM),SIDE_ZIPTIE_Y_OFFSET,SIDE_ZIPTIE_Z_OFFSET]) {
+            cube([2*(WALL_WIDTH+0.1),SIDE_ZIPTIE_Y_DIM,SIDE_ZIPTIE_Z_DIM],center=true); 
+        }
+        translate([0.5*(CHARGER_INNER_X_DIM),-SIDE_ZIPTIE_Y_OFFSET,SIDE_ZIPTIE_Z_OFFSET]) {
+            cube([2*(WALL_WIDTH+0.1),SIDE_ZIPTIE_Y_DIM,SIDE_ZIPTIE_Z_DIM],center=true); 
+        }
+        translate([-0.5*(CHARGER_INNER_X_DIM),SIDE_ZIPTIE_Y_OFFSET,SIDE_ZIPTIE_Z_OFFSET]) {
+            cube([2*(WALL_WIDTH+0.1),SIDE_ZIPTIE_Y_DIM,SIDE_ZIPTIE_Z_DIM],center=true); 
+        }
+        translate([-0.5*(CHARGER_INNER_X_DIM),-SIDE_ZIPTIE_Y_OFFSET,SIDE_ZIPTIE_Z_OFFSET]) {
+            cube([2*(WALL_WIDTH+0.1),SIDE_ZIPTIE_Y_DIM,SIDE_ZIPTIE_Z_DIM],center=true); 
+        }
+
 
     } // difference
 }
